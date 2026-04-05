@@ -8,6 +8,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
+        // Makes centr
         child: Center(
           child: Column(
             children: [
@@ -15,12 +16,30 @@ class LoginPage extends StatelessWidget {
               Icon(Icons.lock, size: 100),
               const SizedBox(height: 50),
 
-              //Phrase
+              //text
               Text(
-                "Welcome to Babify",
+                "Welcome to BabyShop",
                 style: TextStyle(color: Colors.grey[700], fontSize: 16),
               ),
               const SizedBox(height: 25),
+
+              //username
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                     
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400),
+                    ),
+                    fillColor: Colors.grey.shade200,
+                    filled: true,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
