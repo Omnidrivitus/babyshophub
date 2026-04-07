@@ -1,11 +1,16 @@
 import 'package:babyshophub/components/Mytextfield.dart';
+import 'package:babyshophub/components/button.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
 
 final usernameController = TextEditingController();
 final passwordController = TextEditingController();
+//sign in method
+void Signin(){
+
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +51,10 @@ final passwordController = TextEditingController();
               Text("Forgot Password?", style: TextStyle(color: Colors.grey[600])),
               const SizedBox(height: 25),
               //sign in button
+              MyButton(onTap: Signin,),
+
+              const SizedBox(height: 50,),
+
               
             ],
           ),
