@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class ApiService {
   static const String _baseUrl = 'https://babyshop.aptech.osii.me/api';
 
-  Future<void> loginUser(
+  Future<bool> loginUser(
     BuildContext context,
     String email,
     String password,
@@ -18,26 +18,29 @@ class ApiService {
       body: jsonEncode({'email': email, 'password': password}),
     );
 
-    if (!context.mounted) return;
+    if (!context.mounted) return false;
     if (response.statusCode == HttpStatus.ok) {
       final Map<String, dynamic> data = jsonDecode(response.body);
       PreferencesRepository appState = PreferencesRepository();
 
       await appState.setToken(data['token']);
-      if (!context.mounted) return;
+      if (!context.mounted) return false;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Sucess')));
+      return true;
     } else if (response.statusCode == HttpStatus.unauthorized) {
       final Map<String, dynamic> data = jsonDecode(response.body);
 
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(data['message'])));
+      return false;
     } else {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('There was an error')));
+      return false;
     }
   }
 
@@ -60,7 +63,7 @@ class ApiService {
     }
   }
 
-  Future<void> registerUser(
+  Future<bool> registerUser(
     BuildContext context,
     String name,
     String email,
@@ -71,12 +74,14 @@ class ApiService {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'name': name, 'email': email, 'password': password}),
     );
-    if (!context.mounted) return;
+    if (!context.mounted) return false;
     if (response.statusCode == HttpStatus.created) {
       try {
         await loginUserFromRegister(email, password);
+
+        return true;
       } catch (e) {
-        if (!context.mounted) return;
+        if (!context.mounted) return false;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -84,16 +89,19 @@ class ApiService {
             ),
           ),
         );
+        return false;
       }
     } else if (response.statusCode == HttpStatus.badRequest) {
       final Map<String, dynamic> data = jsonDecode(response.body);
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(data['message'])));
+      return false;
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('There was an error ${response.body}')),
       );
+      return false;
     }
   }
 }

@@ -1,6 +1,32 @@
+import 'package:babyshophub/data/repository/auth_repository.dart';
+import 'package:babyshophub/page/home.dart';
+import 'package:babyshophub/page/login.dart';
 import 'package:babyshophub/page/register.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+final _router = GoRouter(
+  initialLocation: '/register',
+  redirect: (context, state) {
+    final isLoggedIn = PreferencesRepository().isLoggedIn();
+    final isOnLoginOrRegisterPage =
+        state.matchedLocation == '/login' ||
+        state.matchedLocation == '/register';
+
+    if (isLoggedIn && isOnLoginOrRegisterPage) return '/home';
+    if (!isLoggedIn && !isOnLoginOrRegisterPage) return '/login';
+    return null;
+  },
+  routes: [
+    GoRoute(
+      path: '/register',
+      builder: (context, state) => const RegisterPage(),
+    ),
+    GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
+    GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+  ],
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,10 +41,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blue),
-      home: RegisterPage(),
+      routerConfig: _router,
     );
   }
 }

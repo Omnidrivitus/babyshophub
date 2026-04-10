@@ -1,5 +1,6 @@
 import 'package:babyshophub/data/service/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -20,12 +21,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
     setState(() => _isLoading = true);
     try {
-      await ApiService().registerUser(
+      bool registerSuccess = await ApiService().registerUser(
         context,
         _nameController.text,
         _emailController.text,
         _passwordController.text,
       );
+      if (registerSuccess && context.mounted) context.go('/home');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -169,7 +171,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(height: 25),
                   TextButton(
-                    onPressed: _isLoading ? null : () => Navigator.pop(context),
+                    onPressed: _isLoading ? null : () => context.go('/login'),
                     child: const Text("Already have an account? Sign In"),
                   ),
                   const SizedBox(height: 25),

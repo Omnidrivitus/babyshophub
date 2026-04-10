@@ -1,5 +1,6 @@
 import 'package:babyshophub/data/service/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,17 +20,20 @@ class _LoginPageState extends State<LoginPage> {
 
     setState(() => _isLoading = true);
     try {
-      await ApiService().loginUser(
+      final loginSuccess = await ApiService().loginUser(
         context,
         _emailController.text,
         _passwordController.text,
       );
+      if (loginSuccess && context.mounted) context.go('/home');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  void registerUserPage() {}
+  void registerUserPage() {
+    context.go('/register');
+  }
 
   @override
   void dispose() {
