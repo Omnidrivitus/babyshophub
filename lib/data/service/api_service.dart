@@ -23,7 +23,8 @@ class ApiService {
       final Map<String, dynamic> data = jsonDecode(response.body);
       PreferencesRepository appState = PreferencesRepository();
 
-      appState.setToken(data['token']);
+      await appState.setToken(data['token']);
+      if (!context.mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Sucess')));
@@ -51,7 +52,7 @@ class ApiService {
       final Map<String, dynamic> data = jsonDecode(response.body);
       PreferencesRepository appState = PreferencesRepository();
 
-      appState.setToken(data['token']);
+      await appState.setToken(data['token']);
     } else if (response.statusCode == HttpStatus.unauthorized) {
       throw Exception('There was an error ${HttpStatus.unauthorized}');
     } else {

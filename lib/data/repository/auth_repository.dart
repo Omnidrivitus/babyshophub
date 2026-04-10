@@ -8,7 +8,7 @@ class PreferencesRepository {
   static const String _tokenKey = 'jwt_token';
 
   /// Save the token
-  Future<void> saveToken(String token) async {
+  Future<void> setToken(String token) async {
     await _box.put(_tokenKey, token);
   }
 
@@ -26,6 +26,4 @@ class PreferencesRepository {
   Future<void> clearToken() async {
     await _box.delete(_tokenKey);
   }
-
-  void setToken(String token) {}
 }
