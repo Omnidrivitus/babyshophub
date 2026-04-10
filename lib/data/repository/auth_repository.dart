@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 class PreferencesRepository {
   // We grab the box we already opened in main.dart
-  final _box = Hive.box('preferences');
+  final _box = Hive.box('babyshophub_preferences');
 
   // Key names stored as constants to prevent typos
   static const String _tokenKey = 'jwt_token';

@@ -3,31 +3,32 @@ import 'package:babyshophub/components/button.dart';
 import 'package:babyshophub/data/service/api_service.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   //sign in method
-  Future<void> loginUser(BuildContext context) async {
+  Future<void> registerUser(BuildContext context) async {
     //
 
+    String name = nameController.text;
     String email = emailController.text;
     String password = passwordController.text;
 
-    await ApiService().loginUser(context, email, password);
+    await ApiService().registerUser(context, name, email, password);
   }
-
-  void registerUserPage() {}
 
   @override
   void dispose() {
+    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -46,41 +47,44 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 50),
 
                 //Logo
-                Icon(Icons.lock, size: 100),
+                Icon(Icons.home, size: 50),
                 const SizedBox(height: 50),
 
                 //text
                 Text(
-                  "Welcome to BabyShop",
+                  "Welcome to BabyShop Register",
                   style: TextStyle(color: Colors.grey[700], fontSize: 16),
                 ),
                 const SizedBox(height: 25),
 
                 //username
                 MyTextField(
-                  controller: emailController,
-                  hintText: "Email",
+                  controller: nameController,
+                  hintText: "John Doe",
                   obscureText: false,
                 ),
 
                 const SizedBox(height: 10),
+
+                MyTextField(
+                  controller: emailController,
+                  hintText: "johndoe@gmail.com",
+                  obscureText: false,
+                ),
+
+                const SizedBox(height: 10),
+
                 //password
                 MyTextField(
                   controller: passwordController,
                   hintText: "Password",
                   obscureText: true,
                 ),
-                const SizedBox(height: 10),
 
-                //forgot password
-                Text(
-                  "Forgot Password?",
-                  style: TextStyle(color: Colors.grey[600]),
-                ),
                 const SizedBox(height: 25),
 
                 //sign in button
-                MyButton(onTap: () => loginUser(context), name: "login"),
+                MyButton(onTap: () => registerUser(context), name: "register"),
                 const SizedBox(height: 25),
 
                 //alternatives
@@ -108,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                MyButton(onTap: registerUserPage, name: "register"),
+                // MyButton(onTap: l, name: "login"), // Route to login pge
               ],
             ),
           ),
