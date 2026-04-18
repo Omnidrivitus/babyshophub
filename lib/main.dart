@@ -1,6 +1,8 @@
 import 'package:babyshophub/data/repository/auth_repository.dart';
+import 'package:babyshophub/page/cart_checkout.dart';
 import 'package:babyshophub/page/home.dart';
 import 'package:babyshophub/page/login.dart';
+import 'package:babyshophub/page/profile.dart';
 import 'package:babyshophub/page/register.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -25,6 +27,14 @@ final _router = GoRouter(
     ),
     GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
     GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+    GoRoute(
+      path: CartCheckoutWidget.routePath,
+      builder: (context, state) => const CartCheckoutWidget(),
+    ),
+    GoRoute(
+      path: ProfilePage.routePath,
+      builder: (context, state) => const ProfilePage(),
+    ),
   ],
 );
 
@@ -38,7 +48,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
