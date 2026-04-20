@@ -2,6 +2,7 @@ import 'package:babyshophub/data/repository/auth_repository.dart';
 import 'package:babyshophub/page/cart_checkout.dart';
 import 'package:babyshophub/page/home.dart';
 import 'package:babyshophub/page/login.dart';
+import 'package:babyshophub/page/navbar.dart';
 import 'package:babyshophub/page/profile.dart';
 import 'package:babyshophub/page/register.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ final _router = GoRouter(
         state.matchedLocation == '/login' ||
         state.matchedLocation == '/register';
 
-    if (isLoggedIn && isOnLoginOrRegisterPage) return '/home';
+    if (isLoggedIn && isOnLoginOrRegisterPage) return '/homeNav';
     if (!isLoggedIn && !isOnLoginOrRegisterPage) return '/login';
     return null;
   },
@@ -26,7 +27,10 @@ final _router = GoRouter(
       builder: (context, state) => const RegisterPage(),
     ),
     GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
-    GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+    GoRoute(
+      path: '/homeNav',
+      builder: (context, state) => const NavigationMenu(),
+    ),
     GoRoute(
       path: CartCheckoutWidget.routePath,
       builder: (context, state) => const CartCheckoutWidget(),
