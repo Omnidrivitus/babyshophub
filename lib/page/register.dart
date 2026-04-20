@@ -27,7 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _emailController.text,
         _passwordController.text,
       );
-      if (registerSuccess && context.mounted) context.go('/home');
+      if (registerSuccess && context.mounted) context.go('/homeNav');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }

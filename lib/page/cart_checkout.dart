@@ -343,7 +343,7 @@ class _CartItem {
                 json['image'] ??
                 productMap['imageUrl'] ??
                 productMap['image'] ??
-                'https://via.placeholder.com/70')
+                'https://www.shutterstock.com/image-vector/image-not-found-failure-network-260nw-2330163829.jpg')
             .toString();
 
     return _CartItem(

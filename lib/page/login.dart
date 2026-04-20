@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
         _emailController.text,
         _passwordController.text,
       );
-      if (loginSuccess && context.mounted) context.go('/home');
+      if (loginSuccess && context.mounted) context.go('/homeNav');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
