@@ -1,5 +1,6 @@
 import 'package:babyshophub/data/repository/auth_repository.dart';
 import 'package:babyshophub/data/service/api_service.dart';
+import 'package:babyshophub/page/order_history.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -36,6 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _isLoading = true;
       _errorMessage = '';
+      _token = _preferencesRepository.getToken()!;
     });
 
     try {
@@ -104,11 +106,15 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: colorScheme.surfaceContainerLowest,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_rounded, color: colorScheme.onSurface),
-          onPressed: () => Navigator.of(context).maybePop(),
-        ),
         title: const Text('Profile'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.history, color: colorScheme.onSurface),
+            onPressed: () {
+              context.go(OrderHistoryPage.routePath);
+            },
+          ),
+        ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -173,17 +179,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 18),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: FilledButton.icon(
-                      onPressed: _loadProfileData,
-                      icon: const Icon(Icons.refresh),
-                      label: const Text('Refresh Profile'),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
                     height: 50,

@@ -1,10 +1,11 @@
 import 'package:babyshophub/data/repository/auth_repository.dart';
 import 'package:babyshophub/page/cart_checkout.dart';
-import 'package:babyshophub/page/home.dart';
 import 'package:babyshophub/page/login.dart';
 import 'package:babyshophub/page/navbar.dart';
+import 'package:babyshophub/page/order_history.dart';
 import 'package:babyshophub/page/profile.dart';
 import 'package:babyshophub/page/register.dart';
+import 'package:babyshophub/page/reset_password.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -38,6 +39,17 @@ final _router = GoRouter(
     GoRoute(
       path: ProfilePage.routePath,
       builder: (context, state) => const ProfilePage(),
+    ),
+    GoRoute(
+      path: OrderHistoryPage.routePath,
+      builder: (context, state) => const OrderHistoryPage(),
+    ),
+    GoRoute(
+      path: '/reset-password',
+      builder: (context, state) {
+        final token = state.uri.queryParameters['token'];
+        return ResetPasswordPage(token: token!);
+      },
     ),
   ],
 );

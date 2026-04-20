@@ -116,11 +116,7 @@ class _CartCheckoutWidgetState extends State<CartCheckoutWidget> {
       appBar: AppBar(
         backgroundColor: colorScheme.surfaceContainerLowest,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_rounded, color: colorScheme.onSurface),
-          onPressed: () => Navigator.of(context).maybePop(),
-        ),
-        title: const Text('Cart Checkout'),
+        title: const Text('Cart and Checkout'),
       ),
       body: SafeArea(
         child: _isLoading
