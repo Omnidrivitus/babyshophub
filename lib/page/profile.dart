@@ -1,6 +1,7 @@
 import 'package:babyshophub/data/repository/auth_repository.dart';
 import 'package:babyshophub/data/service/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -38,7 +39,6 @@ class _ProfilePageState extends State<ProfilePage> {
     });
 
     try {
-      final String token = _preferencesRepository.getToken() ?? '';
       final Map<String, dynamic> profileResponse = await _apiService
           .getMyProfile();
 
@@ -50,7 +50,6 @@ class _ProfilePageState extends State<ProfilePage> {
       if (!mounted) return;
 
       setState(() {
-        _token = token;
         _userId = (profileData['id'] ?? '').toString();
         _name = (profileData['name'] ?? '').toString();
         _email = (profileData['email'] ?? '').toString();
@@ -80,6 +79,8 @@ class _ProfilePageState extends State<ProfilePage> {
       _role = '';
     });
 
+    context.go('/login');
+
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text('Logged out successfully.')));
@@ -91,36 +92,23 @@ class _ProfilePageState extends State<ProfilePage> {
   String get _displayRole => _role.trim().isEmpty ? 'N/A' : _role.trim();
   bool get _isLoggedIn => _token.trim().isNotEmpty;
 
-  String get _tokenPreview {
-    final String trimmedToken = _token.trim();
-    if (trimmedToken.isEmpty) return 'No token stored';
-    if (trimmedToken.length <= 24) return trimmedToken;
-
-    return '${trimmedToken.substring(0, 12)}...${trimmedToken.substring(trimmedToken.length - 12)}';
-  }
-
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-    const Color backgroundColor = Color(0xFFF4F6FC);
-    const Color headerColor = Color(0xFF4B64F2);
-    const Color accentColor = Color(0xFF6B7DFF);
+    const Color accentColor = Color.fromARGB(255, 31, 31, 31);
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: colorScheme.surfaceContainerLowest,
       appBar: AppBar(
+        backgroundColor: colorScheme.surfaceContainerLowest,
         elevation: 0,
-        backgroundColor: headerColor,
-        foregroundColor: Colors.white,
-        title: const Text(
-          'Profile',
-          style: TextStyle(fontWeight: FontWeight.w700),
-        ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back_rounded, color: colorScheme.onSurface),
           onPressed: () => Navigator.of(context).maybePop(),
         ),
+        title: const Text('Profile'),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -173,11 +161,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                   const SizedBox(height: 14),
-                  _SectionTitle(
-                    title: 'Authentication',
-                    icon: Icons.lock_outline,
-                    color: accentColor,
-                  ),
                   const SizedBox(height: 8),
                   _InfoCard(
                     children: [
@@ -188,18 +171,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             ? Icons.verified_user_outlined
                             : Icons.error_outline,
                       ),
-                      const Divider(height: 20),
-                      _InfoRow(
-                        label: 'JWT Token',
-                        value: _tokenPreview,
-                        icon: Icons.key_outlined,
-                      ),
-                      const Divider(height: 20),
-                      _InfoRow(
-                        label: 'Token Length',
-                        value: _token.length.toString(),
-                        icon: Icons.straighten_outlined,
-                      ),
                     ],
                   ),
                   const SizedBox(height: 18),
@@ -207,9 +178,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     width: double.infinity,
                     height: 50,
                     child: FilledButton.icon(
-                      style: FilledButton.styleFrom(
-                        backgroundColor: const Color(0xFF3D50D8),
-                      ),
                       onPressed: _loadProfileData,
                       icon: const Icon(Icons.refresh),
                       label: const Text('Refresh Profile'),
@@ -226,13 +194,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'Profile data is loaded from /api/users/me using your stored JWT token.',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.black54,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
                 ],
               ),
             ),
