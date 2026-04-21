@@ -221,4 +221,20 @@ class ApiService {
       return '$fallback (${response.statusCode})';
     }
   }
+
+  Future<List<dynamic>> getAllProducts() async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/products'), // Ensure this matches AppConstants.API_PRODUCTS
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      // response.body is the List<Product> from your java List<Product> allProducts
+      return jsonDecode(response.body);
+    }
+
+    throw Exception(
+      _extractErrorMessage(response, fallback: 'Could not load products'),
+    );
+  }
 }
