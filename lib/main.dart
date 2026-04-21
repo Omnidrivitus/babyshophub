@@ -9,6 +9,7 @@ import 'package:babyshophub/page/reset_password.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:babyshophub/page/payment_addrress.dart';
 
 final _router = GoRouter(
   initialLocation: '/register',
@@ -43,6 +44,10 @@ final _router = GoRouter(
     GoRoute(
       path: OrderHistoryPage.routePath,
       builder: (context, state) => const OrderHistoryPage(),
+    ),
+    GoRoute(
+      path: PaymentAddressPage.routePath,
+      builder: (context, state) => const PaymentAddressPage(),
     ),
     GoRoute(
       path: '/reset-password',
