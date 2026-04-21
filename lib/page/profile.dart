@@ -177,8 +177,36 @@ class _ProfilePageState extends State<ProfilePage> {
                             ? Icons.verified_user_outlined
                             : Icons.error_outline,
                       ),
+                      //here
                     ],
                   ),
+
+                  SizedBox(height: 20),
+
+                  _SectionTitle(
+                    title: 'Shipping & Payment',
+                    icon: Icons.local_shipping_outlined,
+                    color: accentColor,
+                  ),
+                  const SizedBox(height: 8),
+                  _InfoCard(
+                    children: [
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: const Icon(Icons.map_outlined),
+                        title: const Text("Manage Address & Card"),
+                        subtitle: const Text(
+                          "Set your default shipping and payment info",
+                        ),
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                        onTap: () {
+                          // Use your router or Navigator to go to the new page
+                          context.push('/payment-address');
+                        },
+                      ),
+                    ],
+                  ),
+
                   const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
